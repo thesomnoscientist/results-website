@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The SomnoScientist | Sleep Coaching for High Performers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════
+       MOBILE FIRST — Base styles target 375px.
+       Scale up at 640 / 1024 / 1280px.
+    ═══════════════════════════════════════════════ */
+    :root {
+      --navy:       #1B2A41;
+      --navy-card:  #1E3050;
+      --navy-deep:  #111d2e;
+      --blue:       #7B9CDF;
+      --blue-light: #A8C0EC;
+      --blue-bg:    #EEF3FB;
+      --off-white:  #F5F7FA;
+      --white:      #FFFFFF;
+      --text:       #111827;
+      --muted:      #6B7280;
+      --border:     #E5E7EB;
+      --border-dk:  rgba(123,156,223,0.15);
+      --font: 'Chivo', Arial, Helvetica, sans-serif;
+      --mono: 'JetBrains Mono', 'Courier New', monospace;
+      --max-w: 1200px;
+      /* Spacing scale */
+      --sp-section: 48px;
+      --sp-gap:     20px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    /* Wrapper — mobile first */
+    .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 16px; }
+    @media(min-width:640px)  { .wrap { padding: 0 32px; } }
+    @media(min-width:1024px) { .wrap { padding: 0 48px; } }
+    @media(min-width:1280px) { .wrap { padding: 0 64px; } }
+
+    /* ══════════════════════════════
+       UTILITIES
+    ══════════════════════════════ */
+    .label {
+      font-size: clamp(0.7rem, 1.5vw, 0.75rem);
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--blue); display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    }
+    .label::before { content:''; width:20px; height:2px; background:var(--blue); flex-shrink:0; }
+    .label.on-dark { color: var(--blue-light); }
+    .label.on-dark::before { background: var(--blue-light); }
+
+    /* clamp() on every heading — readable at 375px, scales to desktop */
+    .h1 { font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 900; line-height: 1.07; letter-spacing: -0.03em; }
+    .h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; }
+    .h3 { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 700; line-height: 1.25; }
+
+    /* ══════════════════════════════
+       BUTTONS — min touch target 44px
+    ══════════════════════════════ */
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      font-family:var(--font); font-weight:700; text-decoration:none;
+      border:none; cursor:pointer; min-height:44px;
+      transition:background .2s, transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+    }
+    .btn-navy {
+      background:var(--navy); color:var(--white);
+      font-size:clamp(0.85rem,2vw,0.9rem); letter-spacing:0.03em;
+      padding:12px 24px; border-radius:8px;
+    }
+    .btn-navy:hover  { background:#243550; transform:translateY(-1px); box-shadow:0 4px 14px rgba(27,42,65,.25); }
+    .btn-navy:focus-visible { outline:2px solid var(--blue); outline-offset:3px; }
+    .btn-navy-lg     { font-size:clamp(0.9rem,2vw,1rem); padding:14px 28px; }
+    .btn-outline {
+      background:transparent; color:var(--navy); border:2px solid var(--navy);
+      font-size:clamp(0.85rem,2vw,0.9rem); padding:12px 22px; border-radius:8px; min-height:44px;
+    }
+    .btn-outline:hover { background:var(--off-white); }
+    .btn-white {
+      background:var(--white); color:var(--navy);
+      font-size:clamp(0.9rem,2vw,1rem); padding:14px 28px; border-radius:8px;
+      border:none; cursor:pointer; text-decoration:none; min-height:44px;
+      display:inline-flex; align-items:center; justify-content:center;
+      transition:transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+    }
+    .btn-white:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.18); }
+    .btn-white-outline {
+      background:transparent; color:rgba(255,255,255,.8);
+      font-size:clamp(0.85rem,2vw,0.9rem); padding:12px 22px; border-radius:8px;
+      border:1.5px solid rgba(255,255,255,.25); cursor:pointer; text-decoration:none; min-height:44px;
+      display:inline-flex; align-items:center; justify-content:center;
+      transition:border-color .2s, color .2s;
+    }
+    .btn-white-outline:hover { border-color:rgba(255,255,255,.55); color:var(--white); }
+
+    /* ── PILLS ── */
+    .pill {
+      display:inline-flex; align-items:center; gap:5px;
+      background:var(--blue-bg); border:1px solid rgba(123,156,223,.3);
+      border-radius:100px; padding:5px 12px;
+      font-size:clamp(0.65rem,1.5vw,0.7rem); font-weight:700;
+      letter-spacing:0.06em; text-transform:uppercase; color:var(--navy);
+    }
+    .pill .dot { width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0; }
+    .pill.on-dark { background:rgba(123,156,223,.12); border-color:rgba(123,156,223,.25); color:var(--blue-light); }
+    .pill-row { display:flex; flex-wrap:wrap; gap:6px; }
+
+    /* ── SCROLL REVEAL ── */
+    .r { opacity:0; transform:translateY(14px); transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1); }
+    .r.in { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}
+    .d4{transition-delay:.24s}.d5{transition-delay:.30s}.d6{transition-delay:.36s}
+    .hidden { display:none !important; }
+
+    /* ══════════════════════════════
+       NAV — mobile first
+    ══════════════════════════════ */
+    nav {
+      background:var(--white); border-bottom:1px solid var(--border);
+      position:sticky; top:0; z-index:200;
+    }
+    .nav-inner {
+      display:flex; align-items:center; justify-content:space-between; height:60px;
+    }
+    .nav-logo img { height:34px; width:auto; display:block; }
+    /* Desktop nav links — hidden on mobile */
+    .nav-links { display:none; gap:28px; list-style:none; }
+    .nav-links a {
+      font-size:0.75rem; font-weight:700; letter-spacing:0.05em;
+      text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s;
+      min-height:44px; display:flex; align-items:center;
+    }
+    .nav-links a:hover { color:var(--navy); }
+    /* Desktop CTA — hidden on mobile */
+    .nav-cta { display:none; }
+
+    /* Hamburger button */
+    .hamburger {
+      display:flex; flex-direction:column; justify-content:center; gap:5px;
+      width:44px; height:44px; background:none; border:none; cursor:pointer; padding:10px;
+    }
+    .hamburger span {
+      display:block; width:22px; height:2px; background:var(--navy); border-radius:2px;
+      transition:transform .28s cubic-bezier(.22,1,.36,1), opacity .2s;
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger[aria-expanded="true"] span:nth-child(2) { opacity:0; }
+    .hamburger[aria-expanded="true"] span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+    /* Full-screen mobile menu overlay */
+    .mobile-menu {
+      position:fixed; inset:0; background:var(--navy); z-index:190;
+      display:flex; flex-direction:column; justify-content:center; align-items:center; gap:0;
+      opacity:0; pointer-events:none; transition:opacity .3s;
+    }
+    .mobile-menu.open { opacity:1; pointer-events:auto; }
+    .mm-links { list-style:none; text-align:center; }
+    .mm-links li { border-bottom:1px solid rgba(255,255,255,.07); }
+    .mm-links a {
+      display:block; padding:18px 32px; font-size:clamp(1.1rem,4vw,1.4rem);
+      font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+      color:rgba(255,255,255,.75); text-decoration:none; min-height:60px;
+      display:flex; align-items:center; justify-content:center;
+      transition:color .2s;
+    }
+    .mm-links a:hover { color:var(--white); }
+    .mm-cta {
+      margin-top:32px; background:var(--blue); color:var(--navy);
+      font-size:1rem; font-weight:700; padding:16px 40px; border-radius:8px;
+      text-decoration:none; min-height:52px; display:flex; align-items:center;
+    }
+
+    @media(min-width:640px) {
+      .nav-inner { height:66px; }
+      .nav-logo img { height:36px; }
+    }
+    @media(min-width:1024px) {
+      .hamburger { display:none; }
+      .mobile-menu { display:none; }
+      .nav-links { display:flex; }
+      .nav-cta { display:inline-flex; }
+      .nav-inner { height:68px; }
+      .nav-logo img { height:38px; }
+    }
+
+    /* ══════════════════════════════
+       HERO — mobile first, single column
+    ══════════════════════════════ */
+    #hero {
+      background:var(--white); border-bottom:1px solid var(--border);
+      padding:44px 0 40px;
+    }
+    .hero-grid { display:grid; grid-template-columns:1fr; gap:32px; }
+    .hero-h1 { color:var(--navy); margin-bottom:16px; }
+    .hero-h1 .accent { color:var(--blue); }
+    .hero-sub {
+      font-size:clamp(0.95rem,2.5vw,1.05rem); color:var(--muted);
+      line-height:1.72; margin-bottom:24px;
+    }
+    /* CTAs stacked on mobile */
+    .hero-ctas {
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .hero-ctas .btn-navy-lg, .hero-ctas .btn-outline {
+      width:100%; justify-content:center; text-align:center;
+    }
+    /* Hero photo */
+    .hero-photo-wrap {
+      position:relative; border-radius:14px; overflow:hidden; min-height:200px; max-height:300px;
+    }
+    .hero-photo { width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block; }
+    .hero-photo-label {
+      position:absolute; bottom:0; left:0; right:0;
+      background:linear-gradient(to top, rgba(27,42,65,.85) 0%, transparent 100%);
+      padding:28px 16px 14px;
+      font-family:var(--mono); font-size:0.6rem; font-weight:700;
+      letter-spacing:.09em; text-transform:uppercase; color:rgba(255,255,255,.6);
+    }
+
+    @media(min-width:640px) {
+      #hero { padding:56px 0 52px; }
+      .hero-grid { gap:40px; }
+      .hero-photo-wrap { min-height:260px; max-height:340px; }
+      /* CTAs side by side at tablet */
+      .hero-ctas { flex-direction:row; flex-wrap:wrap; }
+      .hero-ctas .btn-navy-lg, .hero-ctas .btn-outline { width:auto; }
+    }
+    @media(min-width:1024px) {
+      #hero { padding:72px 0 64px; }
+      .hero-grid { grid-template-columns:1fr 420px; align-items:center; gap:56px; }
+      .hero-photo-wrap { min-height:320px; max-height:400px; align-self:start; }
+      .hero-sub { margin-bottom:32px; }
+    }
+    @media(min-width:1280px) {
+      .hero-grid { grid-template-columns:1fr 480px; }
+    }
+
+    /* ══════════════════════════════
+       TRUST BAR
+    ══════════════════════════════ */
+    .trust-bar { background:var(--navy); padding:14px 0; }
+    .trust-inner {
+      display:flex; flex-wrap:nowrap; align-items:center; justify-content:center; gap:10px;
+    }
+    .ti {
+      font-size:clamp(0.62rem,1.5vw,0.68rem); font-weight:700;
+      letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.75);
+      white-space:nowrap;
+    }
+    .tdiv { width:1px; height:10px; background:rgba(255,255,255,.2); flex-shrink:0; }
+    @media(min-width:1024px) {
+      .trust-bar { padding:16px 0; }
+      .trust-inner { gap:14px; }
+    }
+
+    /* ══════════════════════════════
+       ABOUT — mobile first
+    ══════════════════════════════ */
+    #about { background:var(--white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .about-grid { display:grid; grid-template-columns:1fr; gap:40px; align-items:start; }
+    /* Photo — full width on mobile */
+    .about-photos { display:grid; grid-template-columns:1fr; gap:12px; }
+    .about-photo-wrap { border-radius:14px; overflow:hidden; position:relative; }
+    .about-photo-wrap img { width:100%; object-fit:cover; display:block; aspect-ratio:16/9; }
+    .about-photo-label {
+      position:absolute; bottom:10px; left:10px; right:10px;
+      background:rgba(27,42,65,.82); backdrop-filter:blur(4px);
+      border-radius:7px; padding:7px 10px;
+      font-size:clamp(0.6rem,1.5vw,0.65rem); font-weight:700;
+      letter-spacing:.05em; text-transform:uppercase; color:rgba(255,255,255,.8);
+    }
+    .about-story p {
+      font-size:clamp(0.9rem,2vw,1rem); color:var(--muted); line-height:1.75; margin-bottom:16px;
+    }
+    .about-story p:last-child { margin-bottom:0; }
+    .about-story strong { color:var(--text); font-weight:700; }
+    .about-quote {
+      font-size:clamp(0.95rem,2.5vw,1.15rem); font-style:italic; font-weight:300;
+      color:var(--navy); line-height:1.65; border-left:3px solid var(--blue);
+      padding-left:18px; margin:22px 0;
+    }
+    .cred-cards-row { display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+    .cred-mini {
+      display:flex; gap:12px; align-items:flex-start;
+      background:var(--off-white); border:1px solid var(--border); border-radius:10px; padding:14px 16px;
+    }
+    .cred-mini-icon {
+      width:36px; height:36px; border-radius:8px; flex-shrink:0;
+      background:var(--blue-bg); border:1px solid rgba(123,156,223,.25);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .cred-mini-icon svg { width:16px; height:16px; stroke:var(--blue); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .cred-mini-title { font-size:clamp(0.65rem,1.5vw,0.7rem); font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--navy); margin-bottom:2px; }
+    .cred-mini-desc { font-size:clamp(0.8rem,2vw,0.85rem); color:var(--muted); line-height:1.45; }
+
+    @media(min-width:1024px) {
+      #about { padding:80px 0; }
+      .about-grid { grid-template-columns:1fr 420px; gap:56px; }
+      .about-photo-wrap img { aspect-ratio:3/4; }
+    }
+
+    /* ══════════════════════════════
+       RESULTS — mobile first
+    ══════════════════════════════ */
+    #results { background:var(--off-white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .results-header { display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
+    .results-sub { font-size:clamp(0.85rem,2vw,0.9rem); color:var(--muted); line-height:1.6; }
+
+    /* Filter row — scrollable, no wrap on mobile */
+    .filter-row {
+      display:flex; gap:6px; overflow-x:auto; flex-wrap:nowrap;
+      margin-bottom:20px; padding-bottom:4px; scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+    }
+    .filter-row::-webkit-scrollbar { display:none; }
+    .fb {
+      font-family:var(--font); font-size:clamp(0.72rem,1.8vw,0.78rem); font-weight:700;
+      padding:10px 16px; border-radius:100px; min-height:44px; white-space:nowrap; flex-shrink:0;
+      border:1.5px solid var(--border); background:var(--white);
+      color:var(--muted); cursor:pointer; transition:all .18s;
+    }
+    .fb:hover { border-color:var(--navy); color:var(--navy); }
+    .fb.active { background:var(--navy); border-color:var(--navy); color:var(--white); }
+    .fb:focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
+
+    /* Result cards — always stacked (data top, quote bottom) */
+    .rcards-wrap { display:grid; grid-template-columns:1fr; gap:14px; }
+    .rcard {
+      background:var(--white); border:1px solid var(--border); border-radius:14px;
+      overflow:hidden;
+      transition:transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s;
+    }
+    .rcard:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(27,42,65,.1); }
+    /* Inner always stacked — data above, quote below, flush */
+    .rcard-inner { display:flex; flex-direction:column; }
+
+    /* Left: device data */
+    .rcard-data { background:var(--navy); padding:20px; display:flex; flex-direction:column; gap:12px; }
+    .rcard-device-label {
+      font-family:var(--mono); font-size:clamp(0.58rem,1.5vw,0.62rem); font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.85);
+    }
+    .rcard-scores { display:flex; align-items:center; gap:10px; }
+    .rs-circle {
+      width:64px; height:64px; border-radius:50%; flex-shrink:0;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    .rs-circle.before { background:rgba(220,60,60,.25); border:2px solid rgba(220,80,80,.6); }
+    .rs-circle.after  { background:rgba(52,199,120,.12); border:2px solid rgba(52,199,120,.6); }
+    .rs-num {
+      font-family:var(--mono); font-size:1.25rem; font-weight:700; color:var(--white); line-height:1;
+    }
+    .rs-tag { font-size:0.42rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-top:1px; color:rgba(52,199,120,.8); }
+    .rs-circle.before .rs-tag { color:rgba(255,180,180,.8); }
+    .rs-arrow { font-family:var(--mono); font-size:1.4rem; font-weight:700; color:rgba(123,156,223,.75); }
+    .rs-change-wrap { margin-left:8px; text-align:right; }
+    .rs-change-val { font-family:var(--mono); font-size:1.5rem; font-weight:700; color:var(--blue); line-height:1; display:block; }
+    .rs-change-lbl { font-size:clamp(0.5rem,1.2vw,0.55rem); font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:rgba(123,156,223,.65); }
+    .rcard-metrics { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+    .rm { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.06); border-radius:6px; padding:8px 10px; }
+    .rm-lbl { font-size:clamp(0.5rem,1.2vw,0.55rem); font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:rgba(255,255,255,.7); margin-bottom:2px; }
+    .rm-val { font-family:var(--mono); font-size:clamp(0.78rem,2vw,0.85rem); font-weight:700; color:var(--white); }
+    .rm-val .dim { color:rgba(255,255,255,.4); }
+    .rcard-client { display:flex; align-items:baseline; justify-content:flex-start; gap:5px; padding-top:12px; border-top:1px solid rgba(123,156,223,.1); margin-top:auto; }
+    .rc-label { font-size:0.65rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.35); line-height:1; }
+    .rc-name { font-size:0.78rem; font-weight:700; color:var(--white); line-height:1; }
+    .rc-linkedin-hint { font-size:0.58rem; color:var(--blue); opacity:.7; display:flex; align-items:center; gap:3px; margin-top:2px; }
+
+    /* Right: quote */
+    .rcard-quote { padding:20px; display:flex; flex-direction:column; justify-content:space-between; gap:16px; }
+    .rcard-quote-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .rcard-client-name { font-size:0.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); }
+    .rcard-timeframe { font-family:var(--mono); font-size:0.6rem; color:var(--muted); background:var(--off-white); padding:3px 9px; border-radius:100px; }
+    .rcard-headline { font-size:clamp(0.9rem,2.5vw,1.05rem); font-weight:700; color:var(--navy); line-height:1.35; margin:10px 0; }
+    .rcard-quotes { display:flex; flex-direction:column; gap:10px; }
+    .rcard-q { font-size:clamp(0.82rem,2vw,0.88rem); color:#374151; line-height:1.65; font-style:italic; padding-left:12px; border-left:2px solid var(--blue-bg); }
+
+    /* Quote-only cards */
+    .qcards-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-top:12px; }
+    .qcard {
+      background:var(--white); border:1px solid var(--border); border-radius:14px;
+      padding:22px; display:flex; flex-direction:column; gap:12px;
+      transition:transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+    }
+    .qcard:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(27,42,65,.08); }
+    .qcard-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .qcard-name { font-size:0.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--navy); }
+    .qcard-time { font-family:var(--mono); font-size:0.62rem; color:var(--muted); background:var(--off-white); padding:3px 9px; border-radius:100px; }
+    .qcard-headline { font-size:clamp(0.88rem,2vw,0.95rem); font-weight:700; color:var(--navy); line-height:1.35; }
+    .qcard-qs { display:flex; flex-direction:column; gap:9px; }
+    .qcard-q { font-size:clamp(0.85rem,2vw,0.9rem); color:#374151; line-height:1.65; font-style:italic; padding-left:12px; border-left:2px solid var(--blue-bg); }
+
+    /* Results inter-section CTA */
+    .results-cta-btn { width:100%; text-align:center; margin-bottom:8px; }
+
+    @media(min-width:640px) {
+      .qcards-grid { grid-template-columns:repeat(2,1fr); }
+      .results-cta-btn { width:auto; }
+    }
+    @media(min-width:1024px) {
+      #results { padding:80px 0; }
+      .results-header { flex-direction:row; align-items:flex-end; justify-content:space-between; margin-bottom:36px; }
+      .filter-row { flex-wrap:wrap; overflow-x:visible; }
+      .rcards-wrap { grid-template-columns:1fr 1fr; }
+      .rcard-data { padding:24px; }
+      .rcard-quote { padding:28px; }
+      .rs-circle { width:76px; height:76px; }
+      .rs-num { font-size:1.5rem; }
+      .rs-change-val { font-size:1.8rem; }
+      .qcards-grid { grid-template-columns:repeat(3,1fr); }
+    }
+    @media(min-width:1280px) {
+      .rcards-wrap { grid-template-columns:1fr 1fr; }
+    }
+
+    /* ══════════════════════════════
+       VIDEO TESTIMONIALS
+    ══════════════════════════════ */
+    #videos { background:var(--white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .videos-grid { display:grid; grid-template-columns:1fr; gap:20px; margin-top:32px; }
+    .video-card { background:var(--off-white); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    .video-embed { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; }
+    .video-embed iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+    .video-caption { padding:14px 18px; }
+    .video-person { font-size:clamp(0.85rem,2vw,0.9rem); font-weight:700; color:var(--navy); }
+    .video-role { font-size:clamp(0.75rem,1.8vw,0.8rem); color:var(--muted); }
+
+    @media(min-width:640px) { .videos-grid { grid-template-columns:repeat(2,1fr); gap:24px; } }
+    @media(min-width:1024px) { #videos { padding:80px 0; } .videos-grid { margin-top:40px; } }
+
+    /* ══════════════════════════════
+       LINKEDIN
+    ══════════════════════════════ */
+    #linkedin { background:var(--off-white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .linkedin-header { display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
+    .linkedin-link {
+      display:inline-flex; align-items:center; gap:7px; min-height:44px;
+      font-size:clamp(0.78rem,2vw,0.85rem); font-weight:700; color:var(--blue);
+      text-decoration:none; letter-spacing:.04em; transition:opacity .2s;
+    }
+    .linkedin-link:hover { opacity:.7; }
+    .linkedin-link svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .lirec-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+    a.lirec { text-decoration:none; color:inherit; cursor:pointer; }
+    .lirec {
+      background:var(--white); border:1px solid var(--border); border-radius:12px;
+      padding:20px; display:flex; flex-direction:column; gap:12px;
+      transition:transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+    }
+    .lirec:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(27,42,65,.08); }
+    .lirec-top { display:flex; gap:10px; align-items:flex-start; }
+    .lirec-avatar { width:38px; height:38px; border-radius:50%; background:var(--navy); display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-weight:700; color:var(--white); flex-shrink:0; overflow:hidden; }
+    .lirec-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    .lirec-name { font-size:clamp(0.82rem,2vw,0.88rem); font-weight:700; color:var(--navy); }
+    .lirec-role { font-size:clamp(0.72rem,1.8vw,0.78rem); color:var(--muted); }
+    .lirec-badge { display:inline-flex; align-items:center; gap:4px; margin-left:auto; flex-shrink:0; font-size:0.56rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:rgba(10,102,194,.8); padding:3px 8px; background:rgba(10,102,194,.08); border:1px solid rgba(10,102,194,.15); border-radius:4px; }
+    .lirec-text { font-size:clamp(0.84rem,2vw,0.88rem); color:var(--muted); line-height:1.65; font-style:italic; }
+    .lirec-link-hint { font-size:0.7rem; color:var(--blue); font-weight:700; letter-spacing:.03em; margin-top:auto; padding-top:10px; display:flex; align-items:center; gap:4px; opacity:.75; }
+    .lirec-link-hint svg { width:10px; height:10px; stroke:currentColor; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+
+    @media(min-width:640px) { .lirec-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:1024px) {
+      #linkedin { padding:80px 0; }
+      .linkedin-header { flex-direction:row; align-items:flex-end; justify-content:space-between; margin-bottom:36px; }
+    }
+
+    /* ══════════════════════════════
+       IS THIS FOR YOU
+    ══════════════════════════════ */
+    #qualify { background:var(--white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .qualify-cols { display:grid; grid-template-columns:1fr; gap:24px; margin-top:36px; }
+    .qcol-head { font-size:clamp(0.72rem,1.8vw,0.78rem); font-weight:700; text-transform:uppercase; letter-spacing:.06em; padding:10px 14px; border-radius:8px; margin-bottom:16px; }
+    .qcol-head.yes { background:var(--blue-bg); color:var(--navy); }
+    .qcol-head.no  { background:var(--off-white); color:var(--muted); }
+    .qlist { list-style:none; display:flex; flex-direction:column; gap:14px; }
+    .qi { display:flex; gap:10px; align-items:flex-start; }
+    .qi-icon { width:22px; height:22px; min-width:22px; border-radius:50%; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; }
+    .qi-icon.yes { background:var(--blue-bg); }
+    .qi-icon.no  { background:var(--off-white); }
+    .qi-icon svg { width:10px; height:10px; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    .qi-icon.yes svg { stroke:var(--blue); fill:none; }
+    .qi-icon.no  svg { stroke:var(--muted); fill:none; }
+    .qi-text { font-size:clamp(0.88rem,2vw,0.92rem); line-height:1.55; }
+    .qi.yes .qi-text { color:var(--text); }
+    .qi.no  .qi-text { color:var(--muted); }
+
+    @media(min-width:640px) { .qualify-cols { grid-template-columns:1fr 1fr; gap:32px; } }
+    @media(min-width:1024px) { #qualify { padding:80px 0; } .qualify-cols { margin-top:44px; } }
+
+    /* ══════════════════════════════
+       FAQ
+    ══════════════════════════════ */
+    #faq { background:var(--off-white); padding:56px 0; border-bottom:1px solid var(--border); }
+    .faq-wrap { margin-top:32px; border-radius:12px; overflow:hidden; border:1px solid var(--border); }
+    details { background:var(--white); border-bottom:1px solid var(--border); }
+    details:last-child { border-bottom:none; }
+    details[open] { background:var(--blue-bg); }
+    summary {
+      cursor:pointer; padding:18px 20px; min-height:56px;
+      font-size:clamp(0.9rem,2.5vw,0.98rem); font-weight:600; color:var(--navy);
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      list-style:none; user-select:none; transition:background .15s;
+    }
+    summary::-webkit-details-marker { display:none; }
+    summary:hover { background:rgba(123,156,223,.05); }
+    .fchev { width:17px; height:17px; flex-shrink:0; stroke:var(--blue); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:transform .25s; }
+    details[open] .fchev { transform:rotate(180deg); }
+    .faq-body { padding:0 20px 18px; font-size:clamp(0.87rem,2vw,0.92rem); color:var(--muted); line-height:1.72; }
+
+    @media(min-width:1024px) {
+      #faq { padding:80px 0; }
+      .faq-wrap { margin-top:44px; }
+      summary { padding:20px 28px; }
+      .faq-body { padding:0 28px 20px; }
+    }
+
+    /* ══════════════════════════════
+       CTA — mobile first
+    ══════════════════════════════ */
+    #cta { background:var(--navy); padding:56px 0; text-align:center; }
+    .cta-h { color:var(--white); max-width:540px; margin:0 auto 14px; }
+    .cta-sub { font-size:clamp(0.9rem,2.5vw,1.05rem); color:rgba(255,255,255,.5); max-width:420px; margin:0 auto 32px; line-height:1.7; }
+    /* CTA buttons stacked on mobile */
+    .cta-btns { display:flex; flex-direction:column; align-items:stretch; gap:12px; max-width:360px; margin:0 auto; }
+    .cta-btns .btn-white, .cta-btns .btn-white-outline { width:100%; }
+    .pill-row.on-dark-row { justify-content:center; margin-bottom:20px; }
+
+    @media(min-width:640px) {
+      .cta-btns { flex-direction:row; max-width:none; align-items:center; justify-content:center; }
+      .cta-btns .btn-white, .cta-btns .btn-white-outline { width:auto; }
+    }
+    @media(min-width:1024px) { #cta { padding:80px 0; } }
+
+    /* ══════════════════════════════
+       FOOTER — stacks on mobile
+    ══════════════════════════════ */
+    footer { background:var(--navy-deep); border-top:1px solid var(--border-dk); padding:40px 0 24px; }
+    .footer-inner { display:grid; grid-template-columns:1fr; gap:28px; }
+    .footer-logo img { height:32px; width:auto; margin-bottom:10px; display:block; }
+    .footer-tagline { font-size:clamp(0.62rem,1.5vw,0.68rem); font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.5); margin-bottom:6px; }
+    .footer-creds { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+    .fcred { font-size:clamp(0.58rem,1.5vw,0.62rem); font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:rgba(123,156,223,.5); padding:4px 10px; border:1px solid rgba(123,156,223,.15); border-radius:100px; }
+    .footer-email { font-size:clamp(0.72rem,1.8vw,0.78rem); color:rgba(255,255,255,.28); margin-top:10px; word-break:break-word; }
+    .flinks { display:flex; flex-wrap:wrap; gap:14px; list-style:none; }
+    .flinks a { font-size:clamp(0.78rem,2vw,0.82rem); color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; min-height:44px; display:flex; align-items:center; }
+    .flinks a:hover { color:var(--white); }
+    .footer-copy { margin-top:24px; padding-top:18px; border-top:1px solid var(--border-dk); font-size:clamp(0.62rem,1.5vw,0.68rem); color:rgba(255,255,255,.18); text-align:center; }
+
+    @media(min-width:640px) { .footer-inner { grid-template-columns:1fr auto; align-items:start; gap:32px; } }
+    @media(min-width:1024px) { footer { padding:48px 0 28px; } }
+
+    /* Social icons in footer */
+    .footer-social { display:flex; gap:14px; margin-top:16px; flex-wrap:wrap; }
+    .footer-social a {
+      display:flex; align-items:center; justify-content:center;
+      width:36px; height:36px; border-radius:8px;
+      border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05);
+      color:rgba(255,255,255,.45); transition:border-color .2s, color .2s, background .2s;
+      text-decoration:none;
+    }
+    .footer-social a:hover { border-color:rgba(255,255,255,.3); color:var(--white); background:rgba(255,255,255,.1); }
+    .footer-social svg { width:16px; height:16px; }
+
+    /* LinkedIn hint on rcard */
+    .rcard-li-link {
+      font-size:0.78rem; color:var(--blue); font-weight:700;
+      display:inline-flex; align-items:center; gap:5px; opacity:.85;
+      margin-top:6px; text-decoration:none; transition:opacity .2s;
+    }
+    .rcard-li-link:hover { opacity:1; }
+    .rcard-li-link svg { width:11px; height:11px; stroke:currentColor; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+
+    /* Clickable rcard */
+    a.rcard { text-decoration:none; color:inherit; display:block; }
+
+    /* Clickable qcard */
+    a.qcard { text-decoration:none; color:inherit; display:flex; }
+
+    /* Mobile spacing improvements */
+    @media(max-width:639px) {
+      #hero  { padding:40px 0 36px; }
+      #about { padding:52px 0; }
+      .about-grid { gap:32px; }
+      .about-story p { margin-bottom:14px; }
+      #results { padding:52px 0; }
+      .rcards-wrap { gap:12px; }
+      #videos { padding:48px 0; }
+      .videos-grid { margin-top:24px; gap:16px; }
+      #linkedin { padding:48px 0; }
+      .lirec-grid { gap:14px; }
+      #qualify { padding:48px 0; }
+      #faq { padding:48px 0; }
+      .faq-wrap { margin-top:24px; }
+      #cta { padding:52px 0; }
+      footer { padding:36px 0 20px; }
+      .footer-inner { gap:24px; }
+      .footer-social { gap:10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="wrap">
+    <div class="nav-inner">
+      <a href="#" aria-label="The SomnoScientist">
+        <img src="brand_assets/Logo.png" alt="The SomnoScientist" style="height:34px;width:auto;" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#videos">Testimonials</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <a href="https://form.typeform.com/to/ZfQuT1OP" target="_blank" rel="noopener" class="btn btn-navy nav-cta">
+        Book Free Call
+      </a>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu" aria-hidden="true" id="mobileMenu">
+  <ul class="mm-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#videos">Testimonials</a></li>
+    <li><a href="#linkedin">LinkedIn</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="https://form.typeform.com/to/ZfQuT1OP" target="_blank" rel="noopener" class="mm-cta">
+    Book Your Free Sleep Audit
+  </a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+
+      <div>
+        <div class="pill-row r" style="margin-bottom:20px;">
+          <span class="pill"><span class="dot"></span>NHS Sleep Scientist (STP)</span>
+          <span class="pill"><span class="dot"></span>MSc Sport and Health Science</span>
+          <span class="pill"><span class="dot"></span>MSc Sleep Science (in progress)</span>
+        </div>
+
+        <h1 class="h1 hero-h1 r d1">
+          Tired but wired.<br/>
+          Operating at 60%.<br/>
+          <span class="accent">Your sleep is capping your performance.</span>
+        </h1>
+
+        <p class="hero-sub r d2">
+          The Sleep-Driven Performance System gets you back to 100%. Increase your energy, focus, and output in 90 days.
+        </p>
+
+        <div class="hero-ctas r d3">
+          <a href="https://form.typeform.com/to/ZfQuT1OP" target="_blank" rel="noopener" class="btn btn-navy btn-navy-lg">
+            Book Your Free Sleep Audit
+          </a>
+          <a href="#results" class="btn btn-outline">See Client Results</a>
+        </div>
+      </div>
+
+      <!-- Presenting photo -->
+      <div class="hero-photo-wrap r d2">
+        <img src="brand_assets/ea512d8d-4e98-4553-ac01-43b545e0e4a4 2.jpg" alt="Chester Maglo presenting sleep science" class="hero-photo" />
+        <div class="hero-photo-label">Presenting: Homeostasis and Circadian Rhythm</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="wrap">
+    <div class="trust-inner">
+      <div class="ti">Sleep Better</div>
+      <div class="tdiv"></div>
+      <div class="ti">Feel Better</div>
+      <div class="tdiv"></div>
+      <div class="ti">Perform Better</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+
+      <!-- Left: copy -->
+      <div>
+        <div class="label r">About Chester</div>
+        <h2 class="h2 r d1" style="color:var(--navy);margin-bottom:20px;">
+          I know what it feels like to operate at half capacity.
+        </h2>
+
+        <div class="about-story">
+          <p class="r d2">
+            For two years I had uncontrolled sleep apnea. I was stopping breathing <strong>30 times an hour</strong>. I woke up 3 to 5 times a night and it could take me over 30 minutes to fall back asleep each time. I had morning headaches, constant brain fog, and I genuinely felt like I was the dumbest version of myself. I used to sit at my desk, stare at a screen, and 30 minutes would pass with nothing done.
+          </p>
+          <blockquote class="about-quote r d3">
+            "I knew I had more in the tank. But my sleep was capping everything I tried to do."
+          </blockquote>
+          <p class="r d3">
+            The treatment of my sleep apnea helped, but it didn't fix everything. My REM sleep was still as low as 32 minutes. My deep sleep as low as 34 minutes. I was still exhausted, still underperforming. I had to research and build an entirely different approach using sleep science and experience.
+          </p>
+          <p class="r d4">
+            When it clicked, everything changed. My REM now averages around 1 hour 30 and deep sleep around 1 hour 45. Now I wake up at 5am, run my coaching business before work, put in a full day as an NHS Sleep Scientist (STP), and still hit the gym with ease.
+          </p>
+          <p class="r d4">
+            I have been coaching since 2023. I hold an MSc in Sport and Health Science and am currently completing the NHS Scientist Training Programme in Clinical Science.
+          </p>
+        </div>
+
+        <div class="cred-cards-row">
+          <div class="cred-mini r d2">
+            <div class="cred-mini-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div>
+              <div class="cred-mini-title">NHS Scientist Training Programme</div>
+              <div class="cred-mini-desc">Currently completing Year 2 in Clinical Science: Respiratory and Sleep.</div>
+            </div>
+          </div>
+          <div class="cred-mini r d3">
+            <div class="cred-mini-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            <div>
+              <div class="cred-mini-title">MSc Sport and Health Science</div>
+              <div class="cred-mini-desc">Exercise physiology, recovery science, and human performance.</div>
+            </div>
+          </div>
+          <div class="cred-mini r d4">
+            <div class="cred-mini-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+            <div>
+              <div class="cred-mini-title">Oxford Sleep Masterclass</div>
+              <div class="cred-mini-desc">Two-day Oxford University masterclass in CBT-i.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: photo -->
+      <div class="r d2">
+        <div class="about-photo-wrap" style="border-radius:14px;overflow:hidden;position:relative;">
+          <img src="brand_assets/Updated CPAP.jpg" alt="Chester using CPAP machine"
+            style="width:100%;object-fit:cover;object-position:center top;display:block;aspect-ratio:4/5;max-height:520px;" />
+          <div class="about-photo-label">Formerly: stopped breathing 30x per hour</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS ── -->
+<section id="results">
+  <div class="wrap">
+
+    <div class="results-header">
+      <div>
+        <div class="label r">Client Results</div>
+        <h2 class="h2 r d1">Every result. Real devices. Real data.</h2>
+      </div>
+      <p class="results-sub r d2">Not estimates. Not averages. These are the actual numbers from the wearables each client already owns.</p>
+    </div>
+
+    <div class="filter-row r d1">
+      <button class="fb active" onclick="filterCards('all',this)">All Results</button>
+      <button class="fb" onclick="filterCards('score',this)">Sleep Score</button>
+      <button class="fb" onclick="filterCards('deepsleep',this)">Deep Sleep</button>
+      <button class="fb" onclick="filterCards('recovery',this)">Recovery</button>
+      <button class="fb" onclick="filterCards('message',this)">Client Messages</button>
+    </div>
+
+    <!-- DATA CARDS: score left, quote right -->
+    <div class="rcards-wrap">
+
+      <!-- GEM -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_gems-deep-sleep-increased-by-1hr-49-mins-activity-7439939942107082754-Oq2O" target="_blank" rel="noopener" class="rcard r" data-tags="score deepsleep">
+        <div class="rcard-inner">
+          <div class="rcard-data">
+            <div class="rcard-device-label">Garmin Data &nbsp;·&nbsp; 4 Week Improvement</div>
+            <div class="rcard-scores">
+              <div class="rs-circle before">
+                <span class="rs-num">63</span>
+                <span class="rs-tag">Before</span>
+              </div>
+              <span class="rs-arrow">→</span>
+              <div class="rs-circle after">
+                <span class="rs-num">93</span>
+                <span class="rs-tag">After</span>
+              </div>
+              <div class="rs-change-wrap">
+                <span class="rs-change-val">+30</span>
+                <span class="rs-change-lbl">Sleep Score</span>
+              </div>
+            </div>
+            <div class="rcard-metrics">
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep</div>
+                <div class="rm-val"><span class="dim">11m</span> to 1h 50m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep Increase</div>
+                <div class="rm-val">+1h 39m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Sleep</div>
+                <div class="rm-val"><span class="dim">1h 14m</span> to 1h 56m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Increase</div>
+                <div class="rm-val">+42m</div>
+              </div>
+            </div>
+            <div class="rcard-client">
+              <span class="rc-label">Client:</span><span class="rc-name">Gemma</span>
+            </div>
+          </div>
+          <div class="rcard-quote">
+            <div>
+              <div class="rcard-quote-head">
+                <span class="rcard-timeframe">4 Weeks</span>
+              </div>
+              <div class="rcard-headline" style="margin:12px 0;">Sleep score 63 to 93. Deep sleep up 1hr 39min in 4 weeks.</div>
+              <div class="rcard-quotes">
+                <div class="rcard-q">"Had the best night sleep ever, felt amazing when I woke up, no alarm."</div>
+                <div class="rcard-q">"I'm not falling asleep at my computer in the afternoon anymore."</div>
+              </div>
+            </div>
+            <span class="rcard-li-link">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              See more
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- DANIEL -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_30-march-back-to-basics-building-back-up-activity-7444325852584099841-pqwW" target="_blank" rel="noopener" class="rcard r" data-tags="score deepsleep">
+        <div class="rcard-inner">
+          <div class="rcard-data">
+            <div class="rcard-device-label">Galaxy Watch Data &nbsp;·&nbsp; 5 Week Improvement</div>
+            <div class="rcard-scores">
+              <div class="rs-circle before">
+                <span class="rs-num">62</span>
+                <span class="rs-tag">Before</span>
+              </div>
+              <span class="rs-arrow">→</span>
+              <div class="rs-circle after">
+                <span class="rs-num">82</span>
+                <span class="rs-tag">After</span>
+              </div>
+              <div class="rs-change-wrap">
+                <span class="rs-change-val">+20</span>
+                <span class="rs-change-lbl">Sleep Score</span>
+              </div>
+            </div>
+            <div class="rcard-metrics">
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep</div>
+                <div class="rm-val"><span class="dim">56m</span> to 2h 13m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep Increase</div>
+                <div class="rm-val">+1h 17m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Sleep</div>
+                <div class="rm-val"><span class="dim">29m</span> to 1h 15m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Increase</div>
+                <div class="rm-val">+46m</div>
+              </div>
+            </div>
+            <div class="rcard-client">
+              <span class="rc-label">Client:</span><span class="rc-name">Daniel</span>
+            </div>
+          </div>
+          <div class="rcard-quote">
+            <div>
+              <div class="rcard-quote-head">
+                <span class="rcard-timeframe">5 Weeks</span>
+              </div>
+              <div class="rcard-headline" style="margin:12px 0;">Sleep score 62 to 82. Deep sleep up 1hr 17min. Working less, getting more done.</div>
+              <div class="rcard-quotes">
+                <div class="rcard-q">"I'm performing better this week. When I wake up I'm fresh, I feel like I can take on the world and do anything."</div>
+                <div class="rcard-q">"I feel like I've got more mileage on my sleep."</div>
+              </div>
+            </div>
+            <span class="rcard-li-link">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              See more
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- MICHELLE -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_these-messages-from-my-client-were-just-6-activity-7425082018645852160-pxOm" target="_blank" rel="noopener" class="rcard r" data-tags="score deepsleep">
+        <div class="rcard-inner">
+          <div class="rcard-data">
+            <div class="rcard-device-label">Sleep Cycle Data &nbsp;·&nbsp; 6 Week Improvement</div>
+            <div class="rcard-scores">
+              <div class="rs-circle before">
+                <span class="rs-num" style="font-size:.9rem;">63%</span>
+                <span class="rs-tag">Before</span>
+              </div>
+              <span class="rs-arrow">→</span>
+              <div class="rs-circle after">
+                <span class="rs-num" style="font-size:.9rem;">91%</span>
+                <span class="rs-tag">After</span>
+              </div>
+              <div class="rs-change-wrap">
+                <span class="rs-change-val">+28%</span>
+                <span class="rs-change-lbl">Sleep Quality</span>
+              </div>
+            </div>
+            <div class="rcard-metrics">
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep</div>
+                <div class="rm-val"><span class="dim">28m</span> to 59m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">Deep Sleep Increase</div>
+                <div class="rm-val">+31m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Sleep</div>
+                <div class="rm-val"><span class="dim">1h 17m</span> to 2h 06m</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">REM Increase</div>
+                <div class="rm-val">+49m</div>
+              </div>
+            </div>
+            <div class="rcard-client">
+              <span class="rc-label">Client:</span><span class="rc-name">Michelle</span>
+            </div>
+          </div>
+          <div class="rcard-quote">
+            <div>
+              <div class="rcard-quote-head">
+                <span class="rcard-timeframe">6 Weeks</span>
+              </div>
+              <div class="rcard-headline" style="margin:12px 0;">Sleep quality 63% to 91%. Deep sleep up 31 minutes in 6 weeks.</div>
+              <div class="rcard-quotes">
+                <div class="rcard-q">Before: "I wake up groggy, and it takes me a while to feel normal, especially if I've had to get up early."</div>
+                <div class="rcard-q">After: "Best night's sleep yet, previously only a few minutes of deep sleep."</div>
+              </div>
+            </div>
+            <span class="rcard-li-link">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              See more
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- JORDAN -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_my-clients-sleep-score-went-from-63-to-98-activity-7438127977021902848-QXvG" target="_blank" rel="noopener" class="rcard r" data-tags="score recovery">
+        <div class="rcard-inner">
+          <div class="rcard-data">
+            <div class="rcard-device-label">Whoop Data &nbsp;·&nbsp; 5 Week Improvement</div>
+            <div class="rcard-scores">
+              <div class="rs-circle before">
+                <span class="rs-num">75</span>
+                <span class="rs-tag">Before</span>
+              </div>
+              <span class="rs-arrow">→</span>
+              <div class="rs-circle after">
+                <span class="rs-num">92</span>
+                <span class="rs-tag">After</span>
+              </div>
+              <div class="rs-change-wrap">
+                <span class="rs-change-val">+17</span>
+                <span class="rs-change-lbl">Sleep Score</span>
+              </div>
+            </div>
+            <div class="rcard-metrics">
+              <div class="rm">
+                <div class="rm-lbl">Peak Recovery</div>
+                <div class="rm-val">98%</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">90%+ Recovery</div>
+                <div class="rm-val">4 days straight</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">Wake time</div>
+                <div class="rm-val">6:00–6:30am</div>
+              </div>
+              <div class="rm">
+                <div class="rm-lbl">Consistency</div>
+                <div class="rm-val">Daily</div>
+              </div>
+            </div>
+            <div class="rcard-client">
+              <span class="rc-label">Client:</span><span class="rc-name">Jordan</span>
+            </div>
+          </div>
+          <div class="rcard-quote">
+            <div>
+              <div class="rcard-quote-head">
+                <span class="rcard-timeframe">5 Weeks</span>
+              </div>
+              <div class="rcard-headline" style="margin:12px 0;">Sleep score 75 to 92. Recovery hitting 98%. 4 days of 90%+ back to back.</div>
+              <div class="rcard-quotes">
+                <div class="rcard-q">"4 days in 90%+ recovery. Even with back to back hard days."</div>
+                <div class="rcard-q">"Even been able to reduce my caffeine intake, which has sort of just happened naturally as a result of more stable energy levels."</div>
+                <div class="rcard-q">"Recovery hasn't been this good in a long time."</div>
+              </div>
+            </div>
+            <span class="rcard-li-link">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              See more
+            </span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Message / no-device cards -->
+    <div class="qcards-grid" style="margin-top:14px;">
+
+      <!-- JOE -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_my-client-joe-cut-his-work-time-in-half-in-activity-7442476621690888193-NDkI" target="_blank" rel="noopener" class="qcard r d1" data-tags="message">
+        <div class="qcard-head">
+          <span class="qcard-name">Joe</span>
+          <span class="qcard-time">Week 2</span>
+        </div>
+        <div class="qcard-headline">4 hours of check-in work now takes 2. Output literally doubled in a fortnight.</div>
+        <div class="qcard-qs">
+          <div class="qcard-q">Before: "I feel like I've just been feeling sh*t for so long, it's just become the baseline."</div>
+          <div class="qcard-q">"My work blocks are now WAY more efficient. Check-ins that took me 4 hours now take me 2, literally half the time."</div>
+          <div class="qcard-q">"More energy has made this week feel so good. I've got more work done, been more productive, ticked more boxes. It's been class."</div>
+        </div>
+        <div class="rcard-li-link" style="margin-top:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> See more</div>
+      </a>
+
+      <!-- MATTHEW -->
+      <a href="https://www.linkedin.com/posts/chester-maglo-1b1402387_my-client-matthew-joined-the-5am-club-in-activity-7444998278875602944-6VEb" target="_blank" rel="noopener" class="qcard r d2" data-tags="message">
+        <div class="qcard-head">
+          <span class="qcard-name">Matthew</span>
+          <span class="qcard-time">Week 1</span>
+        </div>
+        <div class="qcard-headline">4:45am wake up. Gym by 5:15. Work by 7:45. Week one.</div>
+        <div class="qcard-qs">
+          <div class="qcard-q">"4:45 wake up, feel so much better than previous sleep. Was in the gym for 5:15, home for 6:15 and work for 7:45!"</div>
+          <div class="qcard-q">Previously unheard of for him.</div>
+        </div>
+        <div class="rcard-li-link" style="margin-top:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> See more</div>
+      </a>
+
+      <!-- KEVIN -->
+      <div class="qcard r d3" data-tags="score message">
+        <div class="qcard-head">
+          <span class="qcard-name">Kevin</span>
+          <span class="qcard-time">Week 1</span>
+        </div>
+        <div class="qcard-headline">Sleep consistency 75% to 87% in the first 7 days.</div>
+        <div class="qcard-qs">
+          <div class="qcard-q">Garmin data confirmed. 12 percentage points gained in consistency in week one alone.</div>
+        </div>
+        <div style="margin-top:12px;background:var(--off-white);border-radius:8px;padding:12px 14px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;">
+            <span style="color:var(--muted);">Consistency before</span>
+            <span style="font-family:var(--mono);font-weight:700;color:var(--muted);">75%</span>
+          </div>
+          <div style="height:1px;background:var(--border);margin:8px 0;"></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;">
+            <span style="color:var(--muted);">Consistency after</span>
+            <span style="font-family:var(--mono);font-weight:700;color:var(--navy);">87%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:48px;" class="r">
+      <a href="https://form.typeform.com/to/ZfQuT1OP" target="_blank" rel="noopener" class="btn btn-navy btn-navy-lg results-cta-btn">
+        Find out what's limiting your sleep and the exact steps to fix it
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── VIDEO TESTIMONIALS ── -->
+<section id="videos">
+  <div class="wrap">
+    <div class="label r">Video Testimonials</div>
+    <h2 class="h2 r d1" style="color:var(--navy);margin-bottom:8px;">In their own words.</h2>
+    <p class="r d2" style="color:var(--muted);font-size:1rem;margin-bottom:40px;max-width:540px;">
+      Unscripted. What changed, and what it meant for their work.
+    </p>
+    <div class="videos-grid">
+      <div class="video-card r d1">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/_gZvRimIn40"
+            title="George Kenchington - Sleep Coaching Testimonial"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-caption">
+          <div class="video-person">George Kenchington</div>
+          <div class="video-role">Co-founder at RK Create</div>
+        </div>
+      </div>
+      <div class="video-card r d2">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/AAKdatXocEE"
+            title="Taylor - Sleep Coaching Testimonial"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="video-caption">
+          <div class="video-person">Taylor</div>
+          <div class="video-role">Founder, Signa Graphics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LINKEDIN RECOMMENDATIONS ── -->
+<section id="linkedin">
+  <div class="wrap">
+    <div class="linkedin-header">
+      <div>
+        <div class="label r">LinkedIn Recommendations</div>
+      </div>
+      <a href="https://www.linkedin.com/in/chester-maglo-1b1402387/details/recommendations/?detailScreenTabIndex=0"
+         target="_blank" rel="noopener" class="linkedin-link r d2">
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View all on LinkedIn
+      </a>
+    </div>
+
+    <div class="lirec-grid">
+
+      <a href="https://www.linkedin.com/in/george-kenchington-5164692a3/" target="_blank" rel="noopener" class="lirec r d1">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/George.jpeg" alt="George Kenchington" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">George Kenchington</div>
+            <div class="lirec-role">Co-founder at RK Create</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"Before working with Chester, I didn't realise how low my energy really was. Once we fixed that and built better recovery habits, my energy completely changed. I could work longer hours, stay focused, and actually recover properly without feeling wiped out. More focus, more energy, and I'm performing better in every area."</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/shan-khadka-822034136/" target="_blank" rel="noopener" class="lirec r d2">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/Shan.jpeg" alt="Shan Khadka" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">Shan Khadka</div>
+            <div class="lirec-role">Founder/CEO at VisionOne Tech and SkyRov</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"Chester's sleep coaching session was extremely helpful. He shared practical, personalised strategies that improved my sleep quality, helped me achieve deeper rest, and boosted my daily productivity and overall energy levels significantly."</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/benjamin-coleman-93102b2a9/" target="_blank" rel="noopener" class="lirec r d3">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/Benjamin.jpeg" alt="Benjamin Coleman" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">Benjamin Coleman</div>
+            <div class="lirec-role">Co-founder and COO at BRZRK</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"The difference in how I feel throughout my day and how I perform compared to before I started working with him is hard to communicate. These differences have not only translated over to better cognitive function and more efficiency in a working environment, but also much higher levels of confidence."</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/xenia-dixon-b38aa310a/" target="_blank" rel="noopener" class="lirec r d1">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/Xenia .jpeg" alt="Xenia Dixon" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">Xenia Dixon</div>
+            <div class="lirec-role">Project Manager at Global Warriors</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"Chester recently delivered a talk for Global Warriors. Chester's passion and depth of knowledge were evident throughout, and he skilfully combined personal experience with strong scientific and medical evidence. This made the advice both relatable and practical, giving everyone clear, actionable strategies they could take away and apply straight away."</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/rishi-vadgama-7b24a8a0/" target="_blank" rel="noopener" class="lirec r d2">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/Rishi.jpeg" alt="Rishi Vadgama" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">Rishi Vadgama</div>
+            <div class="lirec-role">Design Engineer at Verotec Limited</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"When it comes to down to earth people Chester is truly one of them. Looking through random online coaches that pop up on various social media platforms, Chester really stood out. With Chester specialising in sleep and respiratory, it's a HUGE game changer!"</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/jamie-flack-97182140/" target="_blank" rel="noopener" class="lirec r d3">
+        <div class="lirec-top">
+          <div class="lirec-avatar"><img src="brand_assets/Jamie.jpeg" alt="Jamie Flack" /></div>
+          <div style="flex:1;">
+            <div class="lirec-name">Jamie Flack</div>
+            <div class="lirec-role">Freelance Graphic Designer</div>
+          </div>
+          <div class="lirec-badge">LinkedIn</div>
+        </div>
+        <div class="lirec-text">"I suffer from sleep apnoea, and it has been a struggle to find someone that really understands that treatment for the condition is tough. Since working on the plan he's laid out, I've felt a lot more confident in not only how my body looks, but in how I address my sleep issues and my fatigue. I'm seeing results weekly."</div>
+        <div class="lirec-link-hint"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 0 2 2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View on LinkedIn</div>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ── IS THIS FOR YOU ── -->
+<section id="qualify">
+  <div class="wrap">
+    <div class="label r">Is This For You?</div>
+    <h2 class="h2 r d1" style="color:var(--navy);max-width:500px;margin-bottom:10px;">This isn't for everyone. Here's how to know.</h2>
+    <p class="r d2" style="color:var(--muted);max-width:480px;">The system works. But only when the fit is right.</p>
+    <div class="qualify-cols">
+      <div class="r d1">
+        <div class="qcol-head yes">This is for you if...</div>
+        <ul class="qlist">
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">You are a business owner or founder doing most of it yourself</span></li>
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">Your performance fluctuates and you suspect sleep is part of the reason</span></li>
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">You have tried melatonin, magnesium, or protocols that haven't stuck long term</span></li>
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">You already invest in coaching, training, or personal development</span></li>
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">You want results in week one, not month six</span></li>
+          <li class="qi yes"><div class="qi-icon yes"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="qi-text">You want a clinical approach, not generic sleep tips from the internet</span></li>
+        </ul>
+      </div>
+      <div class="r d2">
+        <div class="qcol-head no">This is NOT for you if...</div>
+        <ul class="qlist">
+          <li class="qi no"><div class="qi-icon no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><span class="qi-text">You are looking for a quick fix or a supplement stack</span></li>
+          <li class="qi no"><div class="qi-icon no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><span class="qi-text">You are not willing to make small, consistent changes to your routine</span></li>
+          <li class="qi no"><div class="qi-icon no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><span class="qi-text">You think 5 hours is fine and you are not open to being wrong</span></li>
+          <li class="qi no"><div class="qi-icon no"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><span class="qi-text">You want mindset coaching, meditation, or affirmations. This is physiology.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq">
+  <div class="wrap">
+    <div class="label r">FAQ</div>
+    <h2 class="h2 r d1" style="color:var(--text);">Common questions</h2>
+    <div class="faq-wrap r d2">
+      <details>
+        <summary>How much time does this take each week?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">One 30 to 45 minute 1:1 call per week. Beyond that it is built into your existing routine. You are not adding hours to your day. Most clients report feeling like they have more time within the first few weeks, not less.</div>
+      </details>
+      <details>
+        <summary>How quickly will I see results?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">Most clients see measurable change in week one. The data on this page is real. Results then compound over 90 days as the system builds on itself. Week one is about quick wins. Month three is about permanent change.</div>
+      </details>
+      <details>
+        <summary>Do I need a wearable device?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">No. A wearable helps because it gives us objective data to track progress. If you do not have one, I use a sleep diary system and track sleep efficiency and patterns subjectively. The results are still measurable. We will discuss what works best for you on the audit call.</div>
+      </details>
+      <details>
+        <summary>Will this work if I have already tried everything?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">Almost every client has tried melatonin, magnesium, breathwork, and various protocols before arriving here. Those approaches do not work long term because they treat symptoms. This system identifies the root cause specific to your schedule, physiology, and life, then builds a plan around that.</div>
+      </details>
+      <details>
+        <summary>What is the investment?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">The audit call is free. Investment for the programme is discussed after the audit, once we have assessed whether you would genuinely benefit from the system. There is no pressure. The audit gives you value regardless of whether you continue.</div>
+      </details>
+      <details>
+        <summary>Is this clinical treatment or NHS affiliated?<svg class="fchev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <div class="faq-body">No. This coaching is entirely separate from the NHS and is not clinical treatment or diagnosis. If I identify something that requires clinical attention, I will tell you and point you in the right direction.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="wrap">
+    <div class="pill-row r" style="justify-content:center;margin-bottom:24px;">
+      <span class="pill on-dark"><span class="dot"></span>NHS Sleep Scientist (STP)</span>
+      <span class="pill on-dark"><span class="dot"></span>MSc Sport and Health Science</span>
+      <span class="pill on-dark"><span class="dot"></span>MSc Clinical Science</span>
+    </div>
+    <h2 class="h2 cta-h r d1">Every month your sleep stays poor, your output drops.</h2>
+    <p class="cta-sub r d2">Sleep doesn't improve on its own. It improves through a system. Book below to find out exactly what's holding you back and the steps to fix it.</p>
+    <div class="cta-btns r d3">
+      <a href="https://form.typeform.com/to/ZfQuT1OP" target="_blank" rel="noopener" class="btn-white btn btn-navy-lg">
+        Book Your Free 30-Minute Call
+      </a>
+      <a href="mailto:chester@thesomnoscientist.com" class="btn-white-outline">
+        Email Chester directly
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-tagline">Sleep Better. Feel Better. Perform Better.</div>
+        <div class="footer-creds">
+          <span class="fcred">NHS Sleep Scientist (STP)</span>
+          <span class="fcred">MSc Sport and Health Science</span>
+          <span class="fcred">MSc Clinical Science</span>
+        </div>
+        <div class="footer-email"><a href="mailto:chester@thesomnoscientist.com" style="color:inherit;text-decoration:none;">chester@thesomnoscientist.com</a></div>
+        <div class="footer-social">
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/chester-maglo-1b1402387/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/chestermaglo/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@Chestermaglo" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.96-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--navy-deep)"/></svg>
+          </a>
+          <!-- Newsletter -->
+          <a href="https://thesomnoscientist.aweb.page/boost-sleep-performance" target="_blank" rel="noopener" aria-label="Sleep Performance Newsletter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <ul class="flinks">
+          <li><a href="#about">About</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#videos">Testimonials</a></li>
+          <li><a href="#linkedin">LinkedIn</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="mailto:chester@thesomnoscientist.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-copy">&copy; 2026 The SomnoScientist. All rights reserved.</div>
+    <div style="margin-top:12px;font-size:0.7rem;color:rgba(255,255,255,.25);text-align:center;line-height:1.6;">This is not medical treatment, clinical care, or NHS-affiliated services.</div>
+  </div>
+</footer>
+
+<script>
+  // ── Hamburger menu ──
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMenu() {
+    hamburger.setAttribute('aria-expanded','false');
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    if (open) { closeMenu(); }
+    else {
+      hamburger.setAttribute('aria-expanded','true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+  // Close on any menu link click
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  // Close on Escape
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
+
+  // ── Scroll reveal ──
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.r').forEach(el => {
+      if(el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in');
+    });
+  });
+
+  // ── Filter ──
+  function filterCards(tag, btn) {
+    document.querySelectorAll('.fb').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('[data-tags]').forEach(card => {
+      if(tag === 'all') { card.classList.remove('hidden'); }
+      else { card.classList.toggle('hidden', !(card.dataset.tags||'').includes(tag)); }
+    });
+  }
+</script>
+
+</body>
+</html>
